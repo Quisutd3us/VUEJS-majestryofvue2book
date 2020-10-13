@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+<body>
+<section class="section" id="app">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h1 class="title">
+                    Stories
+                </h1>
+                <p class="subtitle">
+                    Lets heard some stories
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <nav class="panel is-info">
+                    <p class="panel-heading">
+                        votes
+                    </p>
+                    <div class="panel-block">
+                        <p class="control has-icons-left">
+                            <label>
+                                <input class="input" type="text" placeholder="Search">
+                            </label>
+                        </p>
+                    </div>
+                    <story v-for="story in stories"
+                           :story="story"
+                           :key="story.id"></story>
+                </nav>
+
+            </div>
+
+            <div class="column">
+                <nav class="panel is-info">
+                    <p class="panel-heading">
+                        Favorite votes
+                    </p>
+                    <div class="panel-block">
+                        <p class="control has-icons-left">
+                            <label>
+                                <input class="input" type="text" placeholder="Search">
+                            </label>
+                        </p>
+                    </div>
+                    <story v-for="story in isFavorite"
+                           :story="story"
+                           :key="story.id"></story>
+
+                </nav>
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <!--        <pre>-->
+        <!--            {{$data}}-->
+        <!--        </pre>-->
+    </div>
+</section>
+
+<!--    templates-->
+<template id="story-template">
+    <div>
+        <a class="panel-block ">{{story.writer}} said "{{story.plot}} have {{story.votes}} Votes"</a>
+        <div class="panel-block">
+            <button class="button is-link is-outlined mx-1" @click="doVote" v-show="!story.votes">
+                <i class="far fa-sticky-note"></i>
+            </button>
+            <button class="button is-warning mx-1" @click="doFavorite" v-show="!story.favorite">
+                <i class="far fa-heart"></i>
+            </button>
+            <button class="button is-danger is-outlined " @click="doClear">
+                <i class="fas fa-backspace"></i>
+            </button>
+            <span class="icon has-text-success is-large" v-show="story.favorite">
+              <i class="fas fa-star"></i>
+            </span>
+        </div>
+    </div>
+
+</template>
+
+</body>
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+
+    Vue.component('story', {
+        template: '#story-template',
+        props: ['story'],
+        methods: {
+            doVote: function () {
+                this.story.votes++;
+            },
+            doFavorite: function () {
+                this.story.favorite = true;
+            },
+            doClear: function () {
+                this.story.votes = 0;
+                this.story.favorite = false;
+            }
+        }
+
+    });
+    new Vue({
+        el: '#app',
+        data: {
+            stories: [
+                {
+                    plot: "I crashed my car today!",
+                    writer: "Alex",
+                    votes: 128,
+                    favorite: false
+                },
+                {
+                    plot: "Yesterday, someone stole my bag!",
+                    writer: "John",
+                    votes: 528,
+                    favorite: false
+                },
+                {
+                    plot: "Someone ate my chocolate...",
+                    writer: "John",
+                    votes: 248,
+                    favorite: false
+                },
+                {
+                    plot: "I ate someone's chocolate!",
+                    writer: "Alex",
+                    votes: 228,
+                    favorite: false
+                }
+            ]
+        },
+        computed: {
+            isFavorite: function () {
+                return this.stories.filter((story) => story.favorite === true)
+            }
+        }
+
+    })
+</script>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="./node_modules/bulma/css/bulma.css">
+</head>
+<body>
+<section class="section" id="app">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h1 class="title">
+                    Stories
+                </h1>
+                <p class="subtitle">
+                    Lets heard some stories
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-centered">
+                <div class="box" :class="{'red':color,'blue':!color}"></div>
+                <div class="box" :class="{'purple':color,'green':!color}"></div>
+                <div class="box" :class="['purple','myborder']"></div>
+                <div class="box" :class="['blue',color? 'myborder': 'myborder2']"></div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-centered">
+                <div class="box" :style="niceStyle">my text</div>
+                <div class="box" :style="{'color':'salmon','fontSize':'3rem','textAlign':'center'}">another text</div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column">
+                <button
+                        class="button is-primary is-large is-fullwidth"
+                        @click="changeColor">Change color
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <pre>
+                    {{$data}}
+                </pre>
+
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+<!--import fontawesome-->
+<script defer src="./node_modules/@fortawesome/fontawesome-free/js/all.js"></script>
+<!--import vue-->
+<script src="./node_modules/vue/dist/vue.js"></script>
+<!--vue instance-->
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            color: false,
+            niceStyle: {
+                color: 'blue',
+                fontSize: '2rem',
+                textAlign:'center'
+            },
+            stories: [
+                {
+                    plot: "I crashed my car today!",
+                    writer: "Alex",
+                    votes: 128
+                },
+                {
+                    plot: "Yesterday, someone stole my bag!",
+                    writer: "John",
+                    votes: 528
+                },
+                {
+                    plot: "Someone ate my chocolate...",
+                    writer: "John",
+                    votes: 248
+                },
+                {
+                    plot: "I ate someone's chocolate!",
+                    writer: "Alex",
+                    votes: 228
+                }
+            ]
+
+        },
+        methods: {
+            changeColor: function () {
+                this.color = !this.color
+            }
+        }
+    })
+</script>
+
+<style type="text/css">
+    .red {
+        background: red;
+    }
+
+    .blue {
+        background: #1d72aa;
+    }
+
+    .purple {
+        background: purple;
+    }
+
+    .green {
+        background: green;
+    }
+
+    .myborder {
+        border: dashed 3rem salmon !important;
+    }
+
+    .myborder2 {
+        border: dashed 4rem white !important;
+    }
+
+    .box {
+        float: left;
+        width: 200px;
+        height: 200px;
+        margin: 40px;
+        border: solid 1px rgba(0, 0, 0, .2);
+    }
+</style>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+<body>
+<section class="section" id="app">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h1 class="title">
+                    People
+                </h1>
+                <p class="subtitle">
+                    Lets heard some name of people
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h2 class="is-size-1 my-4">People of Gaul</h2>
+                <ul v-for="person in people" :key="person.id">
+                    <li>{{person.name}} age: {{person.age}}</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h2 class="is-size-1 my-4">People Old of Gaul</h2>
+                <ul v-for="person in oldPeople" :key="person.id">
+                    <li>{{person.name}} age: {{person.age}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            people: [
+                {
+                    id: 1,
+                    name: "Obelix",
+                    age: 31,
+                    status: true
+                },
+                {
+                    id: 2,
+                    name: "Asterix",
+                    age: 32,
+                    status: true
+                },
+                {
+                    id: 3,
+                    name: "julious Caesar",
+                    age: 56,
+                    status: true
+                },
+                {
+                    id: 4,
+                    name: "Majestix",
+                    age: 62,
+                    status: true
+                },
+                {
+                    id: 5,
+                    name: "Majestix",
+                    age: 72,
+                    status: true
+                },
+            ]
+
+        },
+        computed: {
+            oldPeople: function () {
+                return this.people.filter((person) => person.age >= 65)
+            }
+        }
+    })
+</script>
+</html>

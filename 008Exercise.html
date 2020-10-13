@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+<body>
+<section class="section" id="app">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h1 class="title">
+                    Chariots
+                </h1>
+                <p class="subtitle">
+                    Lets heard some stories
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <chariot v-for="chariot in chariots"
+                         :chariot="chariot"
+                         @change="changeStatus"
+                         :key="chariot.id"></chariot>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <pre>{{$data}}</pre>
+    </div>
+</section>
+
+
+<!--templates-->
+
+<template id="chariot-template">
+    <ul>
+        <li>{{chariot.name}} has {{chariot.horses}} horse(s)
+            <button @click="changeStatus" :disabled="chariot.status==='Riding'">{{chariot.status}}</button>
+        </li>
+    </ul>
+</template>
+
+</body>
+<!--import fontawesome-->
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+<!--import vue-->
+<script src="./node_modules/vue/dist/vue.js"></script>
+<!--vue instance-->
+<script>
+    Vue.component('chariot', {
+        template: '#chariot-template',
+        props: ['chariot'],
+        methods: {
+            changeStatus: function () {
+                this.$emit('change', this.chariot)
+            }
+        }
+
+
+    })
+    new Vue({
+        el: '#app',
+        data: {
+            selectedHorse: {},
+            chariots: [
+                {
+                    id: 0,
+                    name: "Olympus",
+                    horses: 4,
+                    status: 'Pick Chariot'
+                },
+                {
+                    id: 1,
+                    name: "Sagitta",
+                    horses: 3,
+                    status: 'Pick Chariot'
+                },
+                {
+                    id: 2,
+                    name: "Icarus",
+                    horses: 2,
+                    status: 'Pick Chariot'
+                },
+                {
+                    id: 4,
+                    name: "Abraxas",
+                    horses: 1,
+                    status: 'Pick Chariot'
+                },
+            ],
+
+        },
+        methods: {
+            changeStatus: function (horse) {
+                return this.chariots.filter(function (item) {
+                    if (item.id === horse.id) {
+                        horse.status = 'Riding'
+                    } else if (horse.horses > item.horses) {
+                        item.status = 'Dismiss Horses'
+                    } else {
+                        item.status = 'Hire Horses'
+                    }
+                })
+            }
+        }
+    })
+</script>
+</html>

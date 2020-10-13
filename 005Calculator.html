@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+<body>
+<section class="section" id="app">
+    <div class="container">
+        <h1 class="title">
+            Type 2 numbers and choose Operation
+        </h1>
+        <div class="columns">
+            <form class="field is-horizontal">
+
+                <div class="field mx-2">
+                    <div class="control">
+                        <input class="input is-info" type="number" placeholder="Number 1" v-model.number="number1"
+                               required>
+                    </div>
+                </div>
+
+                <div class="field select is-overlay mx-2">
+                    <select v-model="operation">
+                        <option disabled value="">Please select one Operation</option>
+                        <option>/</option>
+                        <option>*</option>
+                        <option>+</option>
+                        <option>-</option>
+                    </select>
+                </div>
+                <div class="field mx-2">
+                    <div class="control">
+                        <input class="input is-info" type="number" placeholder="Number 2" v-model.number="number2"
+                               required>
+                    </div>
+                </div>
+
+
+                <div class=" field buttons has-addons mx-2">
+                    <div class="control">
+                        <button type="submit" class="button is-link" @click.prevent="doCalc">Calculate</button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-link is-light" @click="doClear">Clear</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+        <div class="container">
+            <article class="message is-success">
+                <div class="message-header">
+                    <p>Result Operation</p>
+                    <button class="delete" aria-label="delete"></button>
+                </div>
+                <div class="message-body">
+                    {{number1}} {{operation}} {{number2}} = {{result}}
+                </div>
+            </article>
+        </div>
+        <div class="container">
+            <div class="pre">
+                {{$data}}
+            </div>
+        </div>
+
+    </div>
+</section>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            number1: '',
+            number2: '',
+            operation: '',
+            result: ''
+        },
+        methods: {
+            doClear: function () {
+                this.number1 = ''
+                this.number2 = ''
+                this.result = ''
+            },
+            doCalc: function () {
+                num1 = this.number1;
+                num2 = this.number2;
+                console.log(this.operation)
+                switch (this.operation) {
+                    case '*':
+                        this.result = num1 * num2
+                        console.log('*' + this.result);
+                        break;
+                    case '/':
+                        this.result = num1 / num2
+                        console.log('/' + this.result);
+                        break;
+                    case '+':
+                        this.result = num1 + num2
+                        console.log('+' + this.result);
+                        break;
+                    case '-':
+                        this.result = num1 - num2
+                        console.log('-' + this.result);
+                        break;
+                    default:
+                        console.log('error');
+                }
+            }
+        }
+    })
+</script>
+</html>

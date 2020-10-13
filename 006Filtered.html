@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Filtered</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+<body>
+<section class="section" id="app">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h1 class="title">
+                    Stories
+                </h1>
+                <p class="subtitle">
+                    Lets heard some stories
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <nav class="panel is-info my-6">
+                    <p class="panel-heading">
+                        Search stories
+                    </p>
+                    <div class="panel-block">
+                        <p class="control has-icons-left">
+                            <label>
+                                <input class="input"
+                                       type="text"
+                                       placeholder="Search"
+                                       v-model="query">
+                            </label>
+                        </p>
+                    </div>
+                    <a class="panel-block " v-for="story in searchStories" :key="story.id">
+                        <p>{{story.writer}} said <em>"{{story.plot}}"</em> - votes <strong>{{story.votes}}</strong></p>
+                    </a>
+                    <div class="panel-block">
+                        <button class="button is-link is-outlined is-fullwidth" @click="resetQuery">
+                            Reset all filters
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <nav class="panel is-info my-6">
+                    <p class="panel-heading">
+                        Alex stories
+                    </p>
+                    <div class="panel-block">
+                        <p class="control has-icons-left">
+                            <label>
+                                <input class="input" type="text" placeholder="Search">
+                            </label>
+                        </p>
+                    </div>
+                    <a class="panel-block is-active" v-for="story in storiesBy('Alex')" :key="story.id">
+                        <p>{{story.writer}} said <em>"{{story.plot}}"</em></p>
+                    </a>
+
+                    <div class="panel-block">
+                        <button class="button is-link is-outlined is-fullwidth">
+                            Reset all filters
+                        </button>
+                    </div>
+                </nav>
+            </div>
+            <div class="column">
+                <nav class="panel is-info my-6">
+                    <p class="panel-heading">
+                        Jhon stories
+                    </p>
+                    <div class="panel-block">
+                        <p class="control has-icons-left">
+                            <label>
+                                <input class="input" type="text" placeholder="Search">
+                            </label>
+                        </p>
+                    </div>
+                    <a class="panel-block is-active" v-for="story in storiesBy('John')" :key="story.id">
+                        <p>{{story.writer}} said <em>"{{story.plot}}"</em></p>
+                    </a>
+
+                    <div class="panel-block">
+                        <button class="button is-link is-outlined is-fullwidth">
+                            Reset all filters
+                        </button>
+                    </div>
+                </nav>
+            </div>
+            <div class="column">
+                <nav class="panel is-info my-6">
+                    <p class="panel-heading">
+                        Famous stories - ({{famous.length}})
+                    </p>
+                    <div class="panel-block">
+                        <p class="control has-icons-left">
+                            <label>
+                                <input class="input" type="text" placeholder="Search">
+                            </label>
+                        </p>
+                    </div>
+                    <a class="panel-block " v-for="story in famous" :key="story.id">
+                        <p>{{story.writer}} said <em>"{{story.plot}}"</em> - votes <strong>{{story.votes}}</strong></p>
+                    </a>
+                    <div class="panel-block">
+                        <button class="button is-link is-outlined is-fullwidth">
+                            Reset all filters
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <nav class="panel is-success my-6">
+                    <p class="panel-heading">
+                        Snitch APP
+                    </p>
+                    <a class="panel-block is-active" v-for="hero in heroes" :key="hero.id">
+                        <p>{{hero | snitch}}</p>
+                    </a>
+
+                    <div class="panel-block">
+                        <button class="button is-link is-outlined is-fullwidth">
+                            Reset all filters
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    Vue.filter('snitch', function (hero) {
+        return `
+            ${hero.secretId} is ${hero.firstName} ${hero.lastName} in real life Bro!!
+        `
+    })
+    new Vue({
+        el: '#app',
+        data: {
+            query: '',
+            heroes: [
+                {
+                    id: 1,
+                    firstName: 'Bruce',
+                    lastName: 'Wayne',
+                    secretId: 'Batman'
+                },
+                {
+                    id: 2,
+                    firstName: 'Clark',
+                    lastName: 'Kent',
+                    secretId: 'SuperMan'
+                },
+                {
+                    id: 3,
+                    firstName: 'Jay',
+                    lastName: 'Garrick',
+                    secretId: 'Flash'
+                },
+                {
+                    id: 4,
+                    firstName: 'Peter',
+                    lastName: 'Parker',
+                    secretId: 'SpiderMan'
+                },
+            ],
+            stories: [
+                {
+                    id: 1,
+                    plot: "I crashed my car today!",
+                    writer: "Alex",
+                    votes: 128
+                },
+                {
+                    id: 2,
+                    plot: "Yesterday, someone stole my bag!",
+                    writer: "John",
+                    votes: 528
+                },
+                {
+                    id: 3,
+                    plot: "Someone ate my chocolate...",
+                    writer: "John",
+                    votes: 248
+                },
+                {
+                    id: 4,
+                    plot: "I ate someone's chocolate!",
+                    writer: "Alex",
+                    votes: 228
+                }
+            ]
+
+        },
+        computed: {
+            searchStories: function () {
+                let myQuery = this.query
+                // sort Stories
+                const sortStories = this.stories.sort(function (a, b) {
+                    return b.votes - a.votes
+                })
+                // search stories
+                return sortStories.filter((story) => story.plot.includes(myQuery))
+
+            },
+            famous: function () {
+                return this.stories.filter((story) => story.votes >= 200)
+            }
+        },
+        methods: {
+            resetQuery:function(){
+                this.query=''
+            },
+            storiesBy: function (name) {
+                return this.stories.filter((story) => story.writer === name)
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vue Directives</title>
+    <link rel="stylesheet" href="node_modules/bulma/css/bulma.css">
+</head>
+<body>
+<div class="section" id="app">
+    <div class="container">
+        <template v-if="!message">
+            <h1 class="title is-1" >if the king is in danger..</h1>
+            <h1 class="title is-3" >please send a message!!</h1>
+        </template>
+            <h2 class="subtitle is-4" v-else>yoou have send a message!!</h2>
+        <div class="field">
+            <label class="label">Message</label>
+            <div class="control">
+                <textarea class="textarea" v-model="message"></textarea>
+            </div>
+        </div>
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-link" v-show="message">Send Message</button>
+            </div>
+        </div>
+    </div>
+    <pre class="m-6">
+        {{$data |json}}
+    </pre>
+
+</div>
+</body>
+
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            message: ''
+        }
+    })
+</script>
+</html>

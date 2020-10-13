@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Homework 005</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+<body>
+<section class="section" id="majors">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h1 class="title">
+                    People of Vue
+                </h1>
+                <p class="subtitle">
+                    Click <strong>Vote!!</strong>!
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <nav class="panel is-info my-3">
+                    <p class="panel-heading">
+                        Majors
+                    </p>
+                    <div class="panel-block">
+                        <p class="control has-icons-left">
+                            <label>
+                                <input class="input" type="search" placeholder="Search">
+                            </label>
+                        </p>
+                    </div>
+                    <a class="panel-block is-active" v-for="candidate in sortedMayors" :key="candidate.id">
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Mayor </label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control is-expanded">
+                                        <label>
+                                            <input class="input is-info"
+                                                   type="text"
+                                                   :value="candidate.name"
+
+                                                   disabled>
+                                        </label>
+                                    </p>
+                                </div>
+                                <div class="field">
+                                    <p class="control is-expanded">
+                                        <label>
+                                            <input class="input is-info"
+                                                   type="text"
+                                                   :value="candidate.votes+' votes'"
+                                                   disabled>
+                                        </label>
+                                    </p>
+                                </div>
+                                <div class="field">
+                                    <p class="control is-info">
+                                        <button class="button is-success is-outlined" @click="doVote(candidate.id)">
+                                            Vote
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <pre>
+            {{$data}}
+        </pre>
+    </div>
+</section>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el: '#majors',
+        data: {
+            mayors: [
+                {
+                    id: 1,
+                    name: "Mr Black",
+                    votes: 10,
+                    state: true
+                },
+                {
+                    id: 2,
+                    name: "Mr Pink",
+                    votes: 10,
+                    state: true
+                },
+                {
+                    id: 3,
+                    name: "Mr White",
+                    votes: 10,
+                    state: true
+                },
+                {
+                    id: 4,
+                    name: "Mr Brown",
+                    votes: 10,
+                    state: true
+                }
+            ]
+        },
+        computed: {
+            sortedMayors: function () {
+                return this.mayors.sort((a, b) => {
+                    return b.votes - a.votes
+                })
+            }
+        },
+        methods: {
+            doVote: function (mayorId) {
+                const mayor = this.mayors.find(function (mayor) {
+                    return mayor.id === mayorId
+                })
+                mayor.votes++;
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+<body>
+<section class="section" id="app">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h1 class="title">
+                    Planets
+                </h1>
+                <p class="subtitle">
+                    App visit planets
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <planet v-for="planet in planets"
+                        :planet="planet"
+                        :key="planet.id"></planet>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--template-->
+<template id="planet-template">
+    <div class="card is-info my-4">
+        <header class="card-header">
+            <p class="card-header-title">
+                {{planet.name}}
+            </p>
+            <a href="#" class="card-header-icon" aria-label="more options">
+                <span class="icon">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+            </a>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.</span>
+                <div class="tags has-addons my-3">
+                    <span class="tag">Visits</span>
+                    <span class="tag is-success">{{planet.visits}}</span>
+                </div>
+                <div class="tags has-addons my-3">
+                    <span class="tag">Time</span>
+                    <span class="tag is-warning">{{planet.lastVisit}}</span>
+                </div>
+            </div>
+        </div>
+        <footer class="card-footer p-6" v-if="planet.visits>=3">
+            <span class="icon has-text-success">
+                <i class="fas fa-space-shuttle fa-3x"></i>
+            </span>
+        </footer>
+        <footer class="card-footer" v-else>
+            <a href="#" class="card-footer-item" @click="doVisit">Visit</a>
+        </footer>
+    </div>
+</template>
+
+
+</body>
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    Vue.component('planet', {
+        template: '#planet-template',
+        props: ['planet'],
+        methods: {
+            doVisit: function () {
+                this.planet.visits++;
+                // calculate datetime
+                var currentdate = new Date();
+                var datetime = "Last Visit: " + currentdate.getDate() + "/"
+                    + (currentdate.getMonth() + 1) + "/"
+                    + currentdate.getFullYear() + " @ "
+                    + currentdate.getHours() + ":"
+                    + currentdate.getMinutes() + ":"
+                    + currentdate.getSeconds();
+                this.planet.lastVisit = datetime
+            }
+        }
+    })
+    new Vue({
+        el: '#app',
+        data: {
+            planets: [
+                {
+                    id: 1,
+                    name: "Mercury",
+                    visits: 0,
+                    lastVisit: ''
+                },
+                {
+                    id: 2,
+                    name: "Venus",
+                    visits: 0
+                },
+                {
+                    id: 3,
+                    name: "Mars",
+                    visits: 0
+                },
+                {
+                    id: 4,
+                    name: "Jupiter",
+                    visits: 0
+                }
+            ]
+
+        }
+    })
+</script>
+</html>

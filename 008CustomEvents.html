@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Custom Events</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+<body>
+<section class="section" id="app">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h1 class="title">
+                    Stories
+                </h1>
+                <p class="subtitle">
+                    Lets heard some stories
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="column my-6">
+            <h1 class="title is-1 has-text-centered">{{votes}}</h1>
+            <button class="button is-danger" @click="reset">Clear</button>
+        </div>
+        <div class="columns">
+            <div class="column">
+                <food @voted="countVote" name="CheeseBurguer"></food>
+            </div>
+            <div class="column">
+                <food @voted="countVote" name="Double Bacon Burguer"></food>
+            </div>
+            <div class="column">
+                <food @voted="countVote" name="Rodeo Burguer"></food>
+            </div>
+        </div>
+        <div class="column">
+            <h1 class="title is-1 has-text-centered is-info">Logs</h1>
+            <ul v-for="(item, index) in log">
+                <li>{{index}} -{{item}}</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<template id="food">
+    <div class="has-text-centered">
+        <h1 class="title is-1 ">{{votes}}</h1>
+        <div class="buttons">
+            <button class="button is-primary" @click="vote">{{name}}</button>
+        </div>
+    </div>
+</template>
+
+</body>
+<!--import fontawesome-->
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+<!--import vue-->
+<script src="./node_modules/vue/dist/vue.js"></script>
+<!--vue instance-->
+<script>
+    var bus = new Vue()
+    Vue.component('food', {
+        template: '#food',
+        props: ['name'],
+        data: function () {
+            return {
+                votes: 0
+            }
+        },
+        methods: {
+            vote: function (e) {
+                this.votes++
+                this.$emit('voted', e.target)
+            },
+            reset: function () {
+                this.votes = 0
+            }
+        },
+        created() {
+            bus.$on('reset', this.reset)
+        }
+    })
+    new Vue({
+        el: '#app',
+        data: {
+            votes: 0,
+            log: [],
+            stories: [
+                {
+                    plot: "I crashed my car today!",
+                    writer: "Alex",
+                    votes: 128
+                },
+                {
+                    plot: "Yesterday, someone stole my bag!",
+                    writer: "John",
+                    votes: 528
+                },
+                {
+                    plot: "Someone ate my chocolate...",
+                    writer: "John",
+                    votes: 248
+                },
+                {
+                    plot: "I ate someone's chocolate!",
+                    writer: "Alex",
+                    votes: 228
+                }
+            ]
+
+        },
+        methods: {
+            countVote: function (food) {
+                this.votes++
+                this.log.push(food.textContent + 'received a vote!!!')
+            },
+            reset: function () {
+                this.votes = 0
+                this.log = []
+                bus.$emit('reset')
+            }
+        }
+    })
+</script>
+</html>

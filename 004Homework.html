@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+<body>
+<div class="section" id="app">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h1 class="title">Personal Attributes</h1>
+                <nav class="panel">
+                    <p class="panel-heading">
+                        This is me
+                    </p>
+                    <div class="panel-block">
+                        <p class="control has-icons-left">
+                            <input class="input" type="text" placeholder="Search">
+                        </p>
+                    </div>
+                    <a class="panel-block is-active" v-for="(value, key, index) in personalAttributes">
+
+                        {{index}} - {{key}} : {{value}}
+                    </a>
+
+                    <div class="panel-block">
+                        <button class="button is-link is-outlined is-fullwidth">
+                            Reset all filters
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+
+            personalAttributes: {
+                name: "David Nariño",
+                weight: 70,
+                height: 1.78,
+                eyeColor: 'brown',
+                favoriteFood: 'Tacos'
+            }
+
+
+        }
+    })
+</script>
+</html>
